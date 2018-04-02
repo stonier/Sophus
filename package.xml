@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-<?xml-model href="http://download.ros.org/schema/package_format2.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="2">
   <name>sophus</name>
   <version>0.9.1</version>
@@ -12,7 +11,7 @@
   <author>Hauke Strasdat</author>
   <license>BSD</license>
 
-  <buildtool_depend>cmake</buildtool_depend>
+  <buildtool_depend>ament_cmake_ros</buildtool_depend>
 
   <build_depend>eigen</build_depend>
 
@@ -20,7 +19,7 @@
   <exec_depend>eigen</exec_depend>
 
   <export>
-    <build_type>cmake</build_type>
+    <build_type>ament_cmake</build_type>
   </export>
 
 </package>
