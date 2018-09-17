@@ -96,6 +96,7 @@ target_compile_features (sophus INTERFACE
 add_custom_target(other SOURCES ${SOPHUS_OTHER_FILES})
 
 # Create 'test' make target using ctest
+include(CTest)
 option(BUILD_TESTS "Build tests." ON)
 if(BUILD_TESTS)
     enable_testing()
