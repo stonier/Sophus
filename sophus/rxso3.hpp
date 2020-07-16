@@ -16,22 +16,25 @@ using RxSO3f = RxSO3<float>;
 namespace Eigen {
 namespace internal {
 
-template <class Scalar_, int Options>
-struct traits<Sophus::RxSO3<Scalar_, Options>> {
+template <class Scalar_, int Options_>
+struct traits<Sophus::RxSO3<Scalar_, Options_>> {
+  static constexpr int Options = Options_;
   using Scalar = Scalar_;
   using QuaternionType = Eigen::Quaternion<Scalar, Options>;
 };
 
-template <class Scalar_, int Options>
-struct traits<Map<Sophus::RxSO3<Scalar_>, Options>>
-    : traits<Sophus::RxSO3<Scalar_, Options>> {
+template <class Scalar_, int Options_>
+struct traits<Map<Sophus::RxSO3<Scalar_>, Options_>>
+    : traits<Sophus::RxSO3<Scalar_, Options_>> {
+  static constexpr int Options = Options_;
   using Scalar = Scalar_;
   using QuaternionType = Map<Eigen::Quaternion<Scalar>, Options>;
 };
 
-template <class Scalar_, int Options>
-struct traits<Map<Sophus::RxSO3<Scalar_> const, Options>>
-    : traits<Sophus::RxSO3<Scalar_, Options> const> {
+template <class Scalar_, int Options_>
+struct traits<Map<Sophus::RxSO3<Scalar_> const, Options_>>
+    : traits<Sophus::RxSO3<Scalar_, Options_> const> {
+  static constexpr int Options = Options_;
   using Scalar = Scalar_;
   using QuaternionType = Map<Eigen::Quaternion<Scalar> const, Options>;
 };
@@ -66,9 +69,11 @@ namespace Sophus {
 template <class Derived>
 class RxSO3Base {
  public:
+  static constexpr int Options = Eigen::internal::traits<Derived>::Options;
   using Scalar = typename Eigen::internal::traits<Derived>::Scalar;
   using QuaternionType =
       typename Eigen::internal::traits<Derived>::QuaternionType;
+  using QuaternionTemporaryType = Eigen::Quaternion<Scalar, Options>;
 
   /// Degrees of freedom of manifold, number of dimensions in tangent space
   /// (three for rotation and one for scaling).
@@ -338,7 +343,7 @@ class RxSO3Base {
   /// Returns rotation matrix.
   ///
   SOPHUS_FUNC Transformation rotationMatrix() const {
-    QuaternionType norm_quad = quaternion();
+    QuaternionTemporaryType norm_quad = quaternion();
     norm_quad.normalize();
     return norm_quad.toRotationMatrix();
   }
@@ -665,7 +670,7 @@ class Map<Sophus::RxSO3<Scalar_>, Options>
   friend class Sophus::RxSO3Base<Map<Sophus::RxSO3<Scalar_>, Options>>;
 
   // LCOV_EXCL_START
-  EIGEN_INHERIT_ASSIGNMENT_EQUAL_OPERATOR(Map);
+  SOPHUS_INHERIT_ASSIGNMENT_OPERATORS(Map);
   // LCOV_EXCL_STOP
 
   using Base::operator*=;

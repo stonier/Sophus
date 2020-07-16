@@ -320,8 +320,8 @@ class SE2Base {
     SOPHUS_ENSURE(isOrthogonal(R), "R is not orthogonal:\n %", R);
     SOPHUS_ENSURE(R.determinant() > Scalar(0), "det(R) is not positive: %",
                   R.determinant());
-    typename SO2Type::ComplexT const complex(Scalar(0.5) * (R(0, 0) + R(1, 1)),
-                                             Scalar(0.5) * (R(1, 0) - R(0, 1)));
+    typename SO2Type::ComplexTemporaryType const complex(
+        Scalar(0.5) * (R(0, 0) + R(1, 1)), Scalar(0.5) * (R(1, 0) - R(0, 1)));
     so2().setComplex(complex);
   }
 
@@ -758,7 +758,7 @@ class Map<Sophus::SE2<Scalar_>, Options>
   using Adjoint = typename Base::Adjoint;
 
   // LCOV_EXCL_START
-  EIGEN_INHERIT_ASSIGNMENT_EQUAL_OPERATOR(Map);
+  SOPHUS_INHERIT_ASSIGNMENT_OPERATORS(Map);
   // LCOV_EXCL_STOP
 
   using Base::operator*=;
