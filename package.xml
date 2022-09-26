@@ -14,9 +14,7 @@
   <buildtool_depend>cmake</buildtool_depend>
 
   <build_depend>eigen</build_depend>
-  <build_depend>fmt</build_depend>
   <build_export_depend>eigen</build_export_depend>
-  <build_export_depend>fmt</build_export_depend>
 
   <export>
     <build_type>cmake</build_type>
